@@ -29,7 +29,7 @@ public:
   const char* c_str() const { return _begin; }
   char& at(size_t i) { 
 	  if (i >= _capacity) throw std::out_of_range ("Index out of range.");
-	  else return (*this)[i];
+	  return (*this)[i];
   }
   char& operator[](const size_t i) { return *(_begin + i); }
   const char& operator[](const size_t i) const { return (*this)[i]; }

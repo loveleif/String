@@ -13,7 +13,7 @@ size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
   size_t required = 0;
   if (begin) required += strlen(begin);
   if (append) required += strlen(append);
-  return std::max(wish+1, required);
+  return std::max(wish, required);
 }
 
 void String::ReSize(size_t new_capacity, const char* append) {
