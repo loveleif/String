@@ -30,12 +30,13 @@ public:
   char& at(size_t i) { (i >= _capacity) ? NULL : (*this)[i]; }
   char& operator[](size_t i) { return *(_begin + i); }
   const char& operator[](size_t i) const { return (*this)[i]; }
-  void push_back(char c) { *this += &c; }
+  void push_back(char c) { *this += c; }
   void reserve(size_t n) { ReSize(n+1); }
   size_t capacity() const { return _capacity; }
   void shrink_to_fit() { ReSize(size() + 1); }
 
   String& operator+=(const char* right);
+  String& operator+=(const char right) {  }
   String& operator+=(const String& right) { return *this += right.c_str(); }
   String& operator+=(const std::string& right) { return *this += right.c_str(); }
 };
