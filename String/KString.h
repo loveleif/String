@@ -18,7 +18,7 @@ class String {
   void Grow() { ReSize((_capacity * 4) / 3 + 1); }
 public:
   String(size_t capacity = 10) { ReSize(capacity); }
-  String(const String& str) { ReSize(str.size() + 10, str.c_str()); }
+  String(const String& str) { ReSize(str.size(), str.c_str()); }
   String(const String& str, size_t capacity) { ReSize(capacity, str.c_str()); }
   String(const char* cstr) { ReSize(strlen(cstr), cstr); }
   String(const std::string str) { ReSize(str.size(), c_str()); }
@@ -27,16 +27,19 @@ public:
   size_t size() const { return _end - _begin; }
   size_t length() const { return size(); }
   const char* c_str() const { return _begin; }
-  char& at(size_t i) { (i >= _capacity) ? NULL : (*this)[i]; }
-  char& operator[](size_t i) { return *(_begin + i); }
-  const char& operator[](size_t i) const { return (*this)[i]; }
-  void push_back(char c) { *this += c; }
+  char& at(size_t i) { 
+	  if (i >= _capacity) throw std::out_of_range ("Index out of range.");
+	  else return (*this)[i];
+  }
+  char& operator[](const size_t i) { return *(_begin + i); }
+  const char& operator[](const size_t i) const { return (*this)[i]; }
+  void push_back(const char c) { (*this) += c; }
   void reserve(size_t n) { ReSize(n); }
   size_t capacity() const { return _capacity; }
   void shrink_to_fit() { ReSize(size()); }
 
   String& operator+=(const char* right);
-  String& operator+=(const char right) {  }
+  String& operator+=(const char right);
   String& operator+=(const String& right) { return *this += right.c_str(); }
   String& operator+=(const std::string& right) { return *this += right.c_str(); }
 };
