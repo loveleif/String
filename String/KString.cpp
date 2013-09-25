@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#include "String.h"
+#include "KString.h"
 
 char* StrCpy(char* dest, const char* source) {
   for ( ; *source != '\0'; ++dest, ++source)
@@ -48,4 +48,13 @@ String& String::operator+=(const char* right) {
   else
     _end = StrCpy(_end, right);
   return *this;
+}
+
+String& String::operator+=(const char right) {
+	if (_capacity <= size())
+		Grow();
+	*_end = right;
+	++_end;
+	*_end = '\0';
+	return *this;
 }

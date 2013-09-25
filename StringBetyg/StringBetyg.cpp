@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
-#include "String.h"
+#include "KString.h"
 
 #include <string>
 #include <string.h>
