@@ -30,11 +30,15 @@ void String::ReSize(size_t new_capacity, const char* append) {
   }
   // Append
   if (append) _end = StrCpy(_end, append);
-  // Replace old string with new
-  char* old_begin = _begin;
-  _begin = new_string;
+  // Set _begin
+  if (_begin) {
+    char* old_begin = _begin;
+    _begin = new_string;
+    delete[] old_begin;
+  } else {
+    _begin = new_string;
+  }
   _capacity = new_capacity;
-  delete[] old_begin;
 }
 
 String& String::operator+=(const char* right) {
