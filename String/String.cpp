@@ -5,10 +5,12 @@
 #include "String.h"
 #include <cassert>
 
-char* FindEnd(char* start) {
-  char* end;
-  for (end = start; *end != '\0'; ++end) { }
-  return end;
+char* StrCpy(char* dest, const char* source) {
+  for ( ; *source != '\0'; ++dest, ++source) {
+    *dest = *source;
+  }
+  *dest = '\0';
+  return dest;
 }
 
 size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
@@ -31,10 +33,7 @@ void String::ReSize(size_t new_capacity, const char* append) {
     if (!append) *_end = '\0';
   }
   // Append
-  if (append) {
-    strcpy(_end, append);
-    _end = FindEnd(_end);
-  }
+  if (append) _end = StrCpy(_end, append);
   // Replace old string with new
   char* old_begin = _begin;
   _begin = new_string;
@@ -44,12 +43,10 @@ void String::ReSize(size_t new_capacity, const char* append) {
 
 String& String::operator+=(const char* right) {
   size_t required = strlen(right) + size() + 1;
-  if (required > _capacity) {
+  if (required > _capacity)
     // Append using ReSize makes it possible to use this->_string as right
     ReSize((required * 4) / 3, right);
-  } else {
-    strcpy(_end, right);
-    _end = FindEnd(_end);
-  }
+  else
+    _end = StrCpy(_end, right);
   return *this;
 }
