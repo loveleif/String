@@ -10,7 +10,6 @@ class String {
   char* _end;
   size_t _capacity;
 
-  void Init(const char* base = nullptr, size_t capacity = size_t(0));
   /* Allocates new memory for this String. The optional append argument will be
    * appended before any deallocation (useful if you want to concatenate with
    * self).
@@ -18,11 +17,11 @@ class String {
   void ReSize(size_t new_capacity, const char* append = nullptr);
   void Grow() { ReSize((_capacity * 4) / 3 + 1); }
 public:
-  String(size_t capacity = 10) { Init(nullptr, capacity); }
-  String(const String& string) { Init(string.c_str()); }
-  String(const String& string, size_t capacity) { Init(string.c_str(), capacity); }
-  String(const char* c_string) { Init(c_string); }
-  String(const std::string std_string) { Init(std_string.c_str()); }
+  String(size_t capacity = 10) { ReSize(capacity); }
+  String(const String& str) { ReSize(str.size() + 10, str.c_str()); }
+  String(const String& str, size_t capacity) { ReSize(capacity, str.c_str()); }
+  String(const char* cstr) { ReSize(strlen(cstr), cstr); }
+  String(const std::string str) { ReSize(str.size(), c_str()); }
   ~String() { delete[] _begin; }
 
   size_t size() const { return _end - _begin; }

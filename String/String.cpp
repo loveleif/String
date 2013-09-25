@@ -5,46 +5,41 @@
 #include "String.h"
 #include <cassert>
 
-void String::Init(const char* base, size_t capacity) {
-  if (base) _capacity = std::max(strlen(base)+1, capacity+1);
-  else _capacity = capacity+1;
-
-  _begin = new char[_capacity];
-  if (base) {
-    strcpy(_begin, base);
-    _end = _begin + strlen(base);
-  } else {
-    *_begin = '\0';
-    _end = _begin;
-  }
-}
-
 char* FindEnd(char* start) {
   char* end;
   for (end = start; *end != '\0'; ++end) { }
   return end;
 }
 
-void String::ReSize(size_t new_capacity, const char* append) {
-  if (new_capacity <= size()) return;
-  // TODO Check for overflow with append?
+size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
+  size_t required = 1;
+  if (begin) required += strlen(begin);
+  if (append) required += strlen(append);
+  return std::max(wish+1, required);
+}
 
+void String::ReSize(size_t new_capacity, const char* append) {
+  new_capacity = CalcCapacity(new_capacity, _begin, append);
   // Allocate memory
   char* new_string = new char[new_capacity];
   // Copy data
-  strcpy(new_string, _begin);
-  // Set end
-  _end = new_string + (_end - _begin);
+  if (_begin) {
+    strcpy(new_string, _begin);
+    _end = new_string + (_end - _begin);
+  } else {
+    _end = new_string;
+    if (!append) *_end = '\0';
+  }
   // Append
   if (append) {
     strcpy(_end, append);
     _end = FindEnd(_end);
   }
   // Replace old string with new
-  char* tmp = _begin;
+  char* old_begin = _begin;
   _begin = new_string;
   _capacity = new_capacity;
-  delete[] tmp;
+  delete[] old_begin;
 }
 
 String& String::operator+=(const char* right) {
