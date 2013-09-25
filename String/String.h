@@ -31,9 +31,9 @@ public:
   char& operator[](size_t i) { return *(_begin + i); }
   const char& operator[](size_t i) const { return (*this)[i]; }
   void push_back(char c) { *this += c; }
-  void reserve(size_t n) { ReSize(n+1); }
+  void reserve(size_t n) { ReSize(n); }
   size_t capacity() const { return _capacity; }
-  void shrink_to_fit() { ReSize(size() + 1); }
+  void shrink_to_fit() { ReSize(size()); }
 
   String& operator+=(const char* right);
   String& operator+=(const char right) {  }
