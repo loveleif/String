@@ -1,4 +1,3 @@
-// This is the main DLL file.
 #pragma once
 #include "stdafx.h"
 #include "String.h"
