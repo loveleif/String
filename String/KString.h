@@ -13,8 +13,8 @@ class String {
   /* Allocates new memory for this String. The optional append argument will be
    * appended before any deallocation (useful if you want to concatenate with
    * self). */
-  void ReSize(size_t new_capacity, const char* append = nullptr);
-  void Init(size_t new_capacity, const char* append = nullptr);
+  void ReSize(size_t capacity, const char* append = nullptr);
+  void Init(size_t capacity, const char* append = nullptr);
   void Grow() { ReSize((_capacity * 3) / 2 + 1); }
 public:
   String(size_t capacity = 10) { Init(capacity); }
@@ -26,7 +26,6 @@ public:
 
   ~String() { delete[] _begin; }
 
-
   size_t size() const { return _end - _begin; }
   size_t length() const { return size(); }
   const char* c_str() const { return _begin; }
@@ -37,7 +36,7 @@ public:
   char& operator[](const size_t i) { return *(_begin + i); }
   const char& operator[](const size_t i) const { return (*this)[i]; }
   void push_back(const char c) { (*this) += c; }
-  void reserve(size_t n) { ReSize(n); }
+  void reserve(size_t n) { if (n > capacity()) ReSize(n); }
   size_t capacity() const { return _capacity; }
   void shrink_to_fit() { ReSize(size()); }
   void clear() { 

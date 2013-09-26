@@ -16,17 +16,19 @@ size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
   return std::max(wish, required);
 }
 
-void String::Init(size_t new_capacity, const char* append) {
+void String::Init(size_t capacity, const char* append) {
   _begin = nullptr;
   _end = nullptr;
-  new_capacity = 0;
-  ReSize(new_capacity, append);
+  _capacity = 0;
+  ReSize(capacity, append);
 }
 
 void String::ReSize(size_t new_capacity, const char* append) {
-  new_capacity = CalcCapacity(new_capacity, _begin, append);
+  if (new_capacity == capacity() && !append) return;
+  
+  _capacity = CalcCapacity(new_capacity, _begin, append);
   // Allocate memory
-  char* new_string = new char[new_capacity+1];
+  char* new_string = new char[_capacity+1];
   // Copy data
   if (_begin) {
     _end = StrCpy(new_string, _begin);
@@ -44,7 +46,6 @@ void String::ReSize(size_t new_capacity, const char* append) {
   } else {
     _begin = new_string;
   }
-  _capacity = new_capacity;
 }
 
 String& String::operator+=(const char* right) {
@@ -60,7 +61,7 @@ String& String::operator+=(const char* right) {
 }
 
 String& String::operator+=(const char right) {
-	if (_capacity <= size())
+	if (capacity() <= size())
 		Grow();
 	*_end = right;
 	++_end;
