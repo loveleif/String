@@ -48,12 +48,14 @@ void String::ReSize(size_t new_capacity, const char* append) {
 }
 
 String& String::operator+=(const char* right) {
-  size_t required = strlen(right) + size();
-  if (required > _capacity)
-    // Append using ReSize makes it possible to use this->_string as right
+  size_t len_right = strlen(right);
+  size_t required = len_right + size();
+  if (required > capacity())
     ReSize((required * 3) / 2, right);
-  else
-    _end = StrCpy(_end, right);
+  else {
+    memmove(_end, right, (len_right + 1) * sizeof(char));
+    _end = _end + len_right;
+  }
   return *this;
 }
 
@@ -64,6 +66,16 @@ String& String::operator+=(const char right) {
 	++_end;
 	*_end = '\0';
 	return *this;
+}
+
+String& String::operator=(const String& string) { 
+  if (this != &string) {
+    if (string.size() > capacity())
+      ReSize(string.size(), string.c_str());
+    else
+      _end = StrCpy(_begin, string.c_str());
+  }
+  return *this;
 }
 
 String operator+(const String& left, const String& right) { 

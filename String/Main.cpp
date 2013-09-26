@@ -1,13 +1,11 @@
 // String.cpp : Defines the entry point for the console application.
 //
-
 #include "stdafx.h"
 
 // StringBetyg.cpp : Defines the entry point for the console application.
 //
 #pragma once
 #include "stdafx.h"
-
 
 #define _CRTDBG_MAP_ALLOC
 #ifdef _DEBUG
@@ -41,9 +39,11 @@ void TestFörGodkäntString() {
 	delete new String("hej");
 
 //	-	operator =(Sträng sträng)
+	s2=s3;
 	assert((s2=s3)==s3);
 	assert((s2=s2)==s3);
-	assert((s2=(String("foo")))=="foo");
+	s2 = String("foo");
+	assert(s2=="foo");
 	assert((s2="bar")=="bar");
 
 //-	operator+=(Sträng sträng) som tolkas som konkatenering.
@@ -54,7 +54,8 @@ void TestFörGodkäntString() {
   assert(s2=="barfoobarfoo");
 
 	//+= som får plats;
-	s3="bar"; s3.reserve(10);
+	s3="bar";
+  s3.reserve(10);
 	s3+=s1;
 	assert(s3=="barfoo");
 
@@ -174,7 +175,8 @@ void TestFörVälGodkäntString() {
 
 int main() {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	TestFörVälGodkäntString();
+	TestFörGodkäntString();
+	//TestFörVälGodkäntString();
 	std::cin.get();
 
 }

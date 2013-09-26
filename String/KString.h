@@ -1,6 +1,6 @@
 // String.h
 #pragma once
-#include <string.h>
+#include <cstring>
 #include <string>
 #include <iostream>
 #include <algorithm>
@@ -22,13 +22,16 @@ public:
   String(const String& str, size_t capacity) { Init(capacity, str.c_str()); }
   String(const char* cstr) { Init(strlen(cstr), cstr); }
   String(const std::string str) { Init(str.size(), str.c_str()); }
+  String& operator=(const String& string);
+
   ~String() { delete[] _begin; }
+
 
   size_t size() const { return _end - _begin; }
   size_t length() const { return size(); }
   const char* c_str() const { return _begin; }
   char& at(const size_t i) { 
-	  if (i >= _capacity) throw std::out_of_range ("Index out of range.");
+	  if (i >= size()) throw std::out_of_range ("Index out of range.");
 	  return (*this)[i];
   }
   char& operator[](const size_t i) { return *(_begin + i); }
@@ -37,6 +40,10 @@ public:
   void reserve(size_t n) { ReSize(n); }
   size_t capacity() const { return _capacity; }
   void shrink_to_fit() { ReSize(size()); }
+  void clear() { 
+	  *_begin = '\0';
+	  _end = _begin;
+  }
 
   String& operator+=(const char* right);
   String& operator+=(const char right);
