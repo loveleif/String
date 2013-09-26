@@ -2,11 +2,10 @@
 #include "stdafx.h"
 #include "KString.h"
 
-char* StrCpy(char* dest, const char* source) {
-  for ( ; *source != '\0'; ++dest, ++source)
-    *dest = *source;
-  *dest = '\0';
-  return dest;
+/* As strcpy but returns the end of the new dest string */
+char* CStringCopy(char* dest, const char* source) {
+  strcpy(dest, source);
+  return dest + strlen(dest);
 }
 
 size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
@@ -31,13 +30,13 @@ void String::ReSize(size_t new_capacity, const char* append) {
   char* new_string = new char[_capacity+1];
   // Copy data
   if (_begin) {
-    _end = StrCpy(new_string, _begin);
+    _end = CStringCopy(new_string, _begin);
   } else {
     _end = new_string;
     *_end = '\0';
   }
   // Append
-  if (append) _end = StrCpy(_end, append);
+  if (append) _end = CStringCopy(_end, append);
   // Set _begin
   if (_begin) {
     char* old_begin = _begin;
@@ -74,7 +73,7 @@ String& String::operator=(const String& string) {
     if (string.size() > capacity())
       ReSize(string.size(), string.c_str());
     else
-      _end = StrCpy(_begin, string.c_str());
+      _end = CStringCopy(_begin, string.c_str());
   }
   return *this;
 }
