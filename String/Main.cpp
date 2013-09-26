@@ -86,7 +86,7 @@ void TestFörGodkäntString() {
 	//testas överallt!
 
 //-	at(int i) som indexerar med range check
-	try {
+  try {
 	 s2.at(-1);
 	 assert(false);
 	} catch (std::out_of_range&) {};
@@ -176,7 +176,7 @@ void TestFörVälGodkäntString() {
 int main() {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	TestFörGodkäntString();
-	//TestFörVälGodkäntString();
+	TestFörVälGodkäntString();
 	std::cin.get();
 
 }

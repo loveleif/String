@@ -16,13 +16,18 @@ class String {
   void ReSize(size_t capacity, const char* append = nullptr);
   void Init(size_t capacity, const char* append = nullptr);
   void Grow() { ReSize((_capacity * 3) / 2 + 1); }
+  void String::Move(String& other);
 public:
   String(size_t capacity = 10) { Init(capacity); }
   String(const String& str) { Init(str.size(), str.c_str()); }
   String(const String& str, size_t capacity) { Init(capacity, str.c_str()); }
   String(const char* cstr) { Init(strlen(cstr), cstr); }
   String(const std::string str) { Init(str.size(), str.c_str()); }
+  
+  String(String&& other);
+
   String& operator=(const String& string);
+  String& operator=(String&& other);
 
   ~String() { delete[] _begin; }
 

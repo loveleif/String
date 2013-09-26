@@ -61,12 +61,12 @@ String& String::operator+=(const char* right) {
 }
 
 String& String::operator+=(const char right) {
-	if (capacity() <= size())
-		Grow();
-	*_end = right;
-	++_end;
-	*_end = '\0';
-	return *this;
+  if (capacity() <= size())
+    Grow();
+  *_end = right;
+  ++_end;
+  *_end = '\0';
+  return *this;
 }
 
 String& String::operator=(const String& string) { 
@@ -75,6 +75,27 @@ String& String::operator=(const String& string) {
       ReSize(string.size(), string.c_str());
     else
       _end = StrCpy(_begin, string.c_str());
+  }
+  return *this;
+}
+
+void String::Move(String& other) {
+  _begin = other._begin;
+  _end = other._end;
+  _capacity = other._capacity;
+  other._begin = nullptr;
+  other._end = nullptr;
+  other._capacity = 0;
+}
+
+String::String(String&& other): _begin(nullptr), _end(nullptr), _capacity(0) {
+  Move(other);
+}
+
+String& String::operator=(String&& other) {
+  if (this != &other) {
+    delete[] _begin;
+    Move(other);
   }
   return *this;
 }
