@@ -12,22 +12,21 @@ class String {
 
   /* Allocates new memory for this String. The optional append argument will be
    * appended before any deallocation (useful if you want to concatenate with
-   * self).
-  */
+   * self). */
   void ReSize(size_t new_capacity, const char* append = nullptr);
-  void Grow() { ReSize((_capacity * 4) / 3 + 1); }
+  void Grow() { ReSize((_capacity * 3) / 2 + 1); }
 public:
   String(size_t capacity = 10) { ReSize(capacity); }
   String(const String& str) { ReSize(str.size(), str.c_str()); }
   String(const String& str, size_t capacity) { ReSize(capacity, str.c_str()); }
   String(const char* cstr) { ReSize(strlen(cstr), cstr); }
-  String(const std::string str) { ReSize(str.size(), c_str()); }
+  String(const std::string str) { ReSize(str.size(), str.c_str()); }
   ~String() { delete[] _begin; }
 
   size_t size() const { return _end - _begin; }
   size_t length() const { return size(); }
   const char* c_str() const { return _begin; }
-  char& at(size_t i) { 
+  char& at(const size_t i) { 
 	  if (i >= _capacity) throw std::out_of_range ("Index out of range.");
 	  return (*this)[i];
   }
@@ -44,20 +43,8 @@ public:
   String& operator+=(const std::string& right) { return *this += right.c_str(); }
 };
 
-String operator+(const String& left, const String& right) { 
-  return String(left, left.size() + right.size() + 10) += right;
-}
-
-bool operator==(const String& left, const String& right) {
-  return strcmp(left.c_str(), right.c_str()) == 0;
-}
-bool operator==(const char* left, const String& right) {
-  return strcmp(left, right.c_str()) == 0;
-}
-bool operator==(const String& left, const char* right) {
-  return right == left;
-}
-
-std::ostream& operator<<(std::ostream& os, const String& s) {
-  return os << s.c_str();
-}
+String operator+(const String& left, const String& right);
+bool operator==(const String& left, const String& right);
+bool operator==(const char* left, const String& right);
+bool operator==(const String& left, const char* right);
+std::ostream& operator<<(std::ostream& os, const String& s);

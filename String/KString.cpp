@@ -44,7 +44,7 @@ String& String::operator+=(const char* right) {
   size_t required = strlen(right) + size();
   if (required > _capacity)
     // Append using ReSize makes it possible to use this->_string as right
-    ReSize((required * 4) / 3, right);
+    ReSize((required * 3) / 2, right);
   else
     _end = StrCpy(_end, right);
   return *this;
@@ -57,4 +57,22 @@ String& String::operator+=(const char right) {
 	++_end;
 	*_end = '\0';
 	return *this;
+}
+
+String operator+(const String& left, const String& right) { 
+  return String(left, left.size() + right.size() + 10) += right;
+}
+
+bool operator==(const String& left, const String& right) {
+  return strcmp(left.c_str(), right.c_str()) == 0;
+}
+bool operator==(const char* left, const String& right) {
+  return strcmp(left, right.c_str()) == 0;
+}
+bool operator==(const String& left, const char* right) {
+  return right == left;
+}
+
+std::ostream& operator<<(std::ostream& os, const String& s) {
+  return os << s.c_str();
 }

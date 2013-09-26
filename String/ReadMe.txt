@@ -1,15 +1,16 @@
 ========================================================================
-    DYNAMIC LINK LIBRARY : String Project Overview
+    CONSOLE APPLICATION : String Project Overview
 ========================================================================
 
-AppWizard has created this String DLL for you.  
+AppWizard has created this String application for you.
 
 This file contains a summary of what you will find in each of the files that
 make up your String application.
 
+
 String.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard. 
-    It contains information about the version of Visual C++ that generated the file, and 
+    This is the main project file for VC++ projects generated using an Application Wizard.
+    It contains information about the version of Visual C++ that generated the file, and
     information about the platforms, configurations, and project features selected with the
     Application Wizard.
 
@@ -21,18 +22,19 @@ String.vcxproj.filters
     "Source Files" filter).
 
 String.cpp
-    This is the main DLL source file.
+    This is the main application source file.
 
-String.h
-    This file contains a class declaration.
+/////////////////////////////////////////////////////////////////////////////
+Other standard files:
 
-AssemblyInfo.cpp
-	Contains custom attributes for modifying assembly metadata.
+StdAfx.h, StdAfx.cpp
+    These files are used to build a precompiled header (PCH) file
+    named String.pch and a precompiled types file named StdAfx.obj.
 
 /////////////////////////////////////////////////////////////////////////////
 Other notes:
 
-AppWizard uses "TODO:" to indicate parts of the source code you
+AppWizard uses "TODO:" comments to indicate parts of the source code you
 should add to or customize.
 
 /////////////////////////////////////////////////////////////////////////////

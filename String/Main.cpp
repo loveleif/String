@@ -1,3 +1,8 @@
+// String.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+
 // StringBetyg.cpp : Defines the entry point for the console application.
 //
 #pragma once
@@ -21,8 +26,6 @@
 #include <iostream>
 #include <cassert>
 #include <utility>
-using namespace std;
-
 
 void TestFörGodkäntString() {
 //-	String()
@@ -30,7 +33,9 @@ void TestFörGodkäntString() {
 //-	String(Sträng sträng)
 	String s1("foo"); assert(s1=="foo");
 	String s2(s1); assert(s2=="foo");
-	String s3(string("bar"));  assert(s3=="bar");
+	String s3(std::string("bar"));
+  std::cout << s3 << std::endl;
+  assert(s3=="bar");
 
 //-	~String() Kom ihåg destruktorn!
 	delete new String("hej");
@@ -38,7 +43,7 @@ void TestFörGodkäntString() {
 //	-	operator =(Sträng sträng)
 	assert((s2=s3)==s3);
 	assert((s2=s2)==s3);
-	assert((s2=(string("foo")))=="foo");
+	assert((s2=(String("foo")))=="foo");
 	assert((s2="bar")=="bar");
 
 //-	operator+=(Sträng sträng) som tolkas som konkatenering.
@@ -168,5 +173,5 @@ void TestFörVälGodkäntString() {
 int main() {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	TestFörVälGodkäntString();
-	cin.get();
+	std::cin.get();
 }
