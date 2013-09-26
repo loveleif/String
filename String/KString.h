@@ -14,13 +14,14 @@ class String {
    * appended before any deallocation (useful if you want to concatenate with
    * self). */
   void ReSize(size_t new_capacity, const char* append = nullptr);
+  void Init(size_t new_capacity, const char* append = nullptr);
   void Grow() { ReSize((_capacity * 3) / 2 + 1); }
 public:
-  String(size_t capacity = 10) { ReSize(capacity); }
-  String(const String& str) { ReSize(str.size(), str.c_str()); }
-  String(const String& str, size_t capacity) { ReSize(capacity, str.c_str()); }
-  String(const char* cstr) { ReSize(strlen(cstr), cstr); }
-  String(const std::string str) { ReSize(str.size(), str.c_str()); }
+  String(size_t capacity = 10) { Init(capacity); }
+  String(const String& str) { Init(str.size(), str.c_str()); }
+  String(const String& str, size_t capacity) { Init(capacity, str.c_str()); }
+  String(const char* cstr) { Init(strlen(cstr), cstr); }
+  String(const std::string str) { Init(str.size(), str.c_str()); }
   ~String() { delete[] _begin; }
 
   size_t size() const { return _end - _begin; }

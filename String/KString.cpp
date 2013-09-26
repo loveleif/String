@@ -16,6 +16,13 @@ size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
   return std::max(wish, required);
 }
 
+void String::Init(size_t new_capacity, const char* append) {
+  _begin = nullptr;
+  _end = nullptr;
+  new_capacity = 0;
+  ReSize(new_capacity, append);
+}
+
 void String::ReSize(size_t new_capacity, const char* append) {
   new_capacity = CalcCapacity(new_capacity, _begin, append);
   // Allocate memory

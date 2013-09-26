@@ -49,7 +49,9 @@ void TestFörGodkäntString() {
 //-	operator+=(Sträng sträng) som tolkas som konkatenering.
 	//foo, bar, bar
 	(s2+=s1)+=(s3+=s1);
-	assert(s3=="barfoo" && s2=="barfoobarfoo" && s1=="foo");
+	assert(s3=="barfoo");
+  assert(s1=="foo");
+  assert(s2=="barfoobarfoo");
 
 	//+= som får plats;
 	s3="bar"; s3.reserve(10);
