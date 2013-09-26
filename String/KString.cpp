@@ -4,6 +4,7 @@
 
 /* As strcpy but returns the end of the new dest string */
 char* CStringCopy(char* dest, const char* source) {
+  #pragma warning(disable:4996)
   strcpy(dest, source);
   return dest + strlen(dest);
 }
