@@ -2,14 +2,14 @@
 #include "stdafx.h"
 #include "KString.h"
 
-void String::Init(size_t capacity, const char* append) {
+void String::Init(const size_t capacity, const char* append, const size_t len_append) {
   _begin = nullptr;
   _end = nullptr;
   _capacity = 0;
-  ReSize(capacity, append);
+  ReSize(capacity, append, len_append);
 }
 
-void String::ReSize(size_t new_capacity, const char* append, const size_t len_append) {
+void String::ReSize(const size_t new_capacity, const char* append, const size_t len_append) {
   if (new_capacity == capacity() && !append) return;
   
   size_t old_size = size();
@@ -31,7 +31,7 @@ void String::ReSize(size_t new_capacity, const char* append, const size_t len_ap
     _end += len_append;
     *_end = '\0';
   }
-  // Set _begin
+  // Set _begin and delete old data
   if (_begin) {
     char* old_begin = _begin;
     _begin = new_string;
@@ -41,7 +41,7 @@ void String::ReSize(size_t new_capacity, const char* append, const size_t len_ap
   }
 }
 
-String& String::Append(const char* source, size_t n) {
+String& String::Append(const char* source, const size_t n) {
   size_t new_size = size() + n;
   if (new_size > capacity()) {
     ReSize((new_size * 3) / 2, source, n);
