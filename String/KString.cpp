@@ -48,7 +48,7 @@ String& String::Append(const char* source, size_t n) {
   } else {
     memmove(_end, source, n * sizeof(char));
     _end += n;
-    *_end = '\n';
+    *_end = '\0';
   }
   return *this;
 }
