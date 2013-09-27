@@ -16,8 +16,6 @@ class String {
   void ReSize(size_t new_capacity, const char* append = nullptr, const size_t len_append = 0);
   /* Initializes this String */
   void Init(size_t capacity, const char* append = nullptr);
-  /* Increase capacity by 50 % */
-  void Grow() { ReSize((_capacity * 3) / 2 + 1); }
   /* Help function for the Move operators */
   void Move(String& other);
   /* Help function for append operations */
