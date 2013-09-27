@@ -1,9 +1,6 @@
-// String.cpp : Defines the entry point for the console application.
+// String.cpp : Some testing of the String class.
 //
 #include "stdafx.h"
-
-// StringBetyg.cpp : Defines the entry point for the console application.
-//
 #pragma once
 #include "stdafx.h"
 
