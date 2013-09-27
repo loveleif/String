@@ -1,5 +1,4 @@
 #pragma once
-#pragma warning(disable=4996)
 #include "stdafx.h"
 #include "KString.h"
 
@@ -19,6 +18,7 @@ void String::ReSize(size_t new_capacity, const char* append, const size_t len_ap
   char* new_string = new char[_capacity+1];
   // Copy data
   if (_begin) {
+    #pragma warning(disable:4996)
     strcpy(new_string, _begin);
     _end = new_string + old_size;
   } else {
@@ -50,6 +50,7 @@ String& String::Append(const char* source, size_t n) {
     _end += n;
     *_end = '\n';
   }
+  return *this;
 }
 
 String& String::operator+=(const char* right) {
