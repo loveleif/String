@@ -13,13 +13,15 @@ class String {
   /* Allocates new memory for this String. The optional append argument will be
    * appended before any deallocation (useful if you want to concatenate with
    * self). */
-  void ReSize(size_t capacity, const char* append = nullptr);
+  void ReSize(size_t new_capacity, const char* append = nullptr, const size_t len_append = 0);
   /* Initializes this String */
   void Init(size_t capacity, const char* append = nullptr);
   /* Increase capacity by 50 % */
   void Grow() { ReSize((_capacity * 3) / 2 + 1); }
   /* Help function for the Move operators */
   void Move(String& other);
+  /* Help function for append operations */
+  String& Append(const char* source, size_t n);
 public:
   // Constructors
   String(size_t capacity = 10) { Init(capacity); }

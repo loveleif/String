@@ -2,20 +2,6 @@
 #include "stdafx.h"
 #include "KString.h"
 
-/* As strcpy but returns the end of the new dest string */
-char* CStringCopy(char* dest, const char* source) {
-  #pragma warning(disable:4996)
-  strcpy(dest, source);
-  return dest + strlen(dest);
-}
-
-size_t CalcCapacity(size_t wish, const char* begin, const char* append) {
-  size_t required = 0;
-  if (begin) required += strlen(begin);
-  if (append) required += strlen(append);
-  return std::max(wish, required);
-}
-
 void String::Init(size_t capacity, const char* append) {
   _begin = nullptr;
   _end = nullptr;
@@ -23,21 +9,27 @@ void String::Init(size_t capacity, const char* append) {
   ReSize(capacity, append);
 }
 
-void String::ReSize(size_t new_capacity, const char* append) {
+void String::ReSize(size_t new_capacity, const char* append, const size_t len_append) {
   if (new_capacity == capacity() && !append) return;
   
-  _capacity = CalcCapacity(new_capacity, _begin, append);
+  size_t old_size = size();
+  _capacity = std::max(new_capacity, old_size + len_append);
   // Allocate memory
   char* new_string = new char[_capacity+1];
   // Copy data
   if (_begin) {
-    _end = CStringCopy(new_string, _begin);
+    strcpy(new_string, _begin);
+    _end = new_string + old_size;
   } else {
     _end = new_string;
     *_end = '\0';
   }
   // Append
-  if (append) _end = CStringCopy(_end, append);
+  if (append) {
+    memcpy(_end, append, len_append * sizeof(char));
+    _end += len_append;
+    *_end = '\0';
+  }
   // Set _begin
   if (_begin) {
     char* old_begin = _begin;
@@ -48,33 +40,29 @@ void String::ReSize(size_t new_capacity, const char* append) {
   }
 }
 
-String& String::operator+=(const char* right) {
-  size_t len_right = strlen(right);
-  size_t required = len_right + size();
-  if (required > capacity())
-    ReSize((required * 3) / 2, right);
-  else {
-    memmove(_end, right, (len_right + 1) * sizeof(char));
-    _end = _end + len_right;
+String& String::Append(const char* source, size_t n) {
+  size_t new_size = size() + n;
+  if (new_size > capacity()) {
+    ReSize((new_size * 3) / 2, source, n);
+  } else {
+    memmove(_end, source, n * sizeof(char));
+    _end += n;
+    *_end = '\n';
   }
-  return *this;
+}
+
+String& String::operator+=(const char* right) {
+  return Append(right, strlen(right));
 }
 
 String& String::operator+=(const char right) {
-  if (capacity() <= size())
-    Grow();
-  *_end = right;
-  ++_end;
-  *_end = '\0';
-  return *this;
+  return Append(&right, 1);
 }
 
 String& String::operator=(const String& string) { 
   if (this != &string) {
-    if (string.size() > capacity())
-      ReSize(string.size(), string.c_str());
-    else
-      _end = CStringCopy(_begin, string.c_str());
+    clear();
+    Append(string.c_str(), string.size());
   }
   return *this;
 }
