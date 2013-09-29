@@ -14,24 +14,25 @@ class String {
    * appended before any deallocation (useful if you want to concatenate with
    * self). */
   void ReSize(const size_t new_capacity, const char* append = nullptr, const size_t len_append = 0);
-  /* Initializes this String */
-  void Init(const size_t capacity, const char* append, const size_t len_append);
   /* Help function for the Move operators */
   void Move(String& other);
   /* Help function for append operations */
   String& Append(const char* source, const size_t n);
 public:
   // Constructors
-  String(const size_t capacity = 10) { Init(capacity, nullptr, 0); }
-  String(const String& str) { Init(str.size()+10, str.c_str(), str.size()); }
-  String(const String& str, size_t capacity) { Init(capacity, str.c_str(), str.size()); }
-  String(const char* cstr) {
-    size_t size = strlen(cstr);
-    Init(size+10, cstr, size); 
-  }
-  String(const std::string str) { Init(str.size()+10, str.c_str(), str.size()); }
+  String(const size_t capacity = 10, const char* append = nullptr, const size_t len_append = 0): _begin(nullptr), _end(nullptr), _capacity(0)
+    { ReSize(capacity, append, len_append); }
+  String(const String& str): _begin(nullptr), _end(nullptr), _capacity(0)
+    { ReSize(str.size()+10, str.c_str(), str.size()); }
+  String(const String& str, size_t capacity): _begin(nullptr), _end(nullptr), _capacity(0) 
+    { ReSize(capacity, str.c_str(), str.size()); }
+  String(const char* cstr): _begin(nullptr), _end(nullptr), _capacity(0)
+    { size_t size = strlen(cstr); ReSize(size+10, cstr, size); }
+  String(const std::string str): _begin(nullptr), _end(nullptr), _capacity(0)
+    { ReSize(str.size()+10, str.c_str(), str.size()); }
   // Move constructor
-  String(String&& other);
+  String(String&& other): _begin(nullptr), _end(nullptr), _capacity(0)
+    { Move(other); }
 
   // Assignment
   String& operator=(const String& string);

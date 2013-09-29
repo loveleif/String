@@ -2,13 +2,6 @@
 #include "stdafx.h"
 #include "KString.h"
 
-void String::Init(const size_t capacity, const char* append, const size_t len_append) {
-  _begin = nullptr;
-  _end = nullptr;
-  _capacity = 0;
-  ReSize(capacity, append, len_append);
-}
-
 void String::ReSize(const size_t new_capacity, const char* append, const size_t len_append) {
   if (new_capacity == capacity() && !append) return;
   
@@ -76,10 +69,6 @@ void String::Move(String& other) {
   other._begin = nullptr;
   other._end = nullptr;
   other._capacity = 0;
-}
-
-String::String(String&& other): _begin(nullptr), _end(nullptr), _capacity(0) {
-  Move(other);
 }
 
 String& String::operator=(String&& other) {
