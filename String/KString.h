@@ -19,6 +19,9 @@ class String {
   /* Help function for append operations */
   String& Append(const char* source, const size_t n);
 public:
+  // Typedefs
+  typedef char* iterator;
+  typedef std::reverse_iterator<iterator> reverse_iterator;
   // Constructors
   String(const size_t capacity = 10, const char* append = nullptr, const size_t len_append = 0): _begin(nullptr), _end(nullptr), _capacity(0)
     { ReSize(capacity, append, len_append); }
@@ -41,6 +44,12 @@ public:
 
   // Destructor
   ~String() { delete[] _begin; }
+
+  // Iterators
+  iterator begin() { return _begin; }
+  iterator end() { return _end; }
+  reverse_iterator rbegin() { return reverse_iterator(_end); }
+  reverse_iterator rend() { return reverse_iterator(_begin); }
 
   // Various methods that follow the std::string interface
   size_t size() const { return _end - _begin; }

@@ -3,6 +3,25 @@
 #include "stdafx.h"
 #pragma once
 #include "stdafx.h"
+#include <cassert>
+
+#include <Windows.h>
+
+LARGE_INTEGER frequency;
+LARGE_INTEGER lastTick;
+
+double stopWatch() {
+  assert(QueryPerformanceFrequency(&frequency));
+  LARGE_INTEGER thisTick;
+
+  QueryPerformanceCounter(&thisTick);
+
+  double delta = ((double)thisTick.QuadPart - (double)lastTick.QuadPart) / (double)frequency.QuadPart;
+  delta *= 1000.0;
+  lastTick = thisTick;
+
+  return delta;
+}
 
 #define _CRTDBG_MAP_ALLOC
 #ifdef _DEBUG
@@ -28,6 +47,8 @@ void TestFörGodkäntString() {
 //-	String(Sträng sträng)
 	String s1("foo"); assert(s1=="foo");
 	String s2(s1); assert(s2=="foo");
+	std::string a("hej");
+	a.begin();
 	String s3(std::string("bar"));
   std::cout << s3 << std::endl;
   assert(s3=="bar");
@@ -172,8 +193,24 @@ void TestFörVälGodkäntString() {
 
 int main() {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	TestFörGodkäntString();
-	TestFörVälGodkäntString();
+	//TestFörGodkäntString();
+	//TestFörVälGodkäntString();
+
+  /*
+  stopWatch();
+  stopWatch();
+
+  int a = 5;
+
+  double elapsed = stopWatch();
+  */
+
+  char* a = "test!";
+  std::reverse_iterator<char*> ri(a+5);
+  std::cout << *ri << std::endl;
+  ++ri;
+  std::cout << *ri << std::endl;
+
 	std::cin.get();
 
 }
