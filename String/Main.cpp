@@ -4,16 +4,10 @@
 #pragma once
 #include "stdafx.h"
 #include <cassert>
-<<<<<<< HEAD
-
-#include <Windows.h>
-
-=======
 #include <Windows.h>
 
 using namespace std;
 
->>>>>>> Iterators
 LARGE_INTEGER frequency;
 LARGE_INTEGER lastTick;
 
@@ -203,24 +197,20 @@ void TestIterator() {
 
   String s2;
 
-<<<<<<< HEAD
   for (auto i = s.begin(); i != s.end(); ++i) {
     s2 += *i;
-=======
+  }
   for (auto iter = s.begin(); iter != s.end(); ++iter) {
     s2 += *iter;
->>>>>>> Iterators
   }
   assert(s==s2);
   s2.clear();
   assert(s!=s2);
-<<<<<<< HEAD
   for (auto i = s.cbegin(); i != s.cend(); ++i) {
     s2 += *i;
   }
   assert(s==s2);
   s2.clear();
-=======
   for (auto iter = s.cbegin(); iter != s.cend(); ++iter) {
     s2 += *iter;
   }
@@ -233,7 +223,6 @@ void TestIterator() {
   for (auto iter = s.rbegin(); iter != s.rend(); ++iter)
     s2 += *iter;
   assert(sr==s2);
->>>>>>> Iterators
 }
 
 
@@ -253,10 +242,6 @@ int main() {
 
   TestIterator();
 
-<<<<<<< HEAD
 	std::cin.get();
-=======
 	//std::cin.get();
->>>>>>> Iterators
-
 }
