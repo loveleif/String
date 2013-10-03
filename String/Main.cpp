@@ -190,6 +190,25 @@ void TestFörVälGodkäntString() {
 
 }
 
+void TestIterator() {
+  String s("abcdefghijklmnopqrstuvwxyz");
+  s.reserve(256);
+
+  String s2;
+
+  for (auto i = s.begin(); i != s.end(); ++i) {
+    s2 += *i;
+  }
+  assert(s==s2);
+  s2.clear();
+  assert(s!=s2);
+  for (auto i = s.cbegin(); i != s.cend(); ++i) {
+    s2 += *i;
+  }
+  assert(s==s2);
+  s2.clear();
+}
+
 
 int main() {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
@@ -205,11 +224,7 @@ int main() {
   double elapsed = stopWatch();
   */
 
-  char* a = "test!";
-  std::reverse_iterator<char*> ri(a+5);
-  std::cout << *ri << std::endl;
-  ++ri;
-  std::cout << *ri << std::endl;
+  TestIterator();
 
 	std::cin.get();
 

@@ -21,8 +21,8 @@ class String {
   String& Append(const char* source, const size_t n);
 public:
   // Typedefs
-  typedef char* iterator;
-  typedef std::reverse_iterator<iterator> reverse_iterator;
+  typedef char* Iterator;
+  typedef std::reverse_iterator<Iterator> ReverseIter;
   // Constructors
   String(const size_t capacity = 10, const char* append = nullptr, const size_t len_append = 0): _begin(nullptr), _end(nullptr), _capacity(0)
     { ReSize(capacity, append, len_append); }
@@ -47,14 +47,14 @@ public:
   ~String() { delete[] _begin; }
 
   // Iterators
-  iterator begin() { return _begin; }
-  const iterator cbegin() const { return _begin; }
-  iterator end() { return _end; }
-  const iterator cend() const { return _end; }
-  reverse_iterator rbegin() { return reverse_iterator(_end); }
-  const reverse_iterator crbegin() const { return reverse_iterator(_end); }
-  reverse_iterator rend() { return reverse_iterator(_begin); }
-  const reverse_iterator crend() const { return reverse_iterator(_begin); }
+  Iterator begin() { return _begin; }
+  const Iterator cbegin() const { return _begin; }
+  Iterator end() { return _end; }
+  const Iterator cend() const { return _end; }
+  ReverseIter rbegin() { return reverse_iterator(_end); }
+  const ReverseIter crbegin() const { return reverse_iterator(_end); }
+  ReverseIter rend() { return reverse_iterator(_begin); }
+  const ReverseIter crend() const { return reverse_iterator(_begin); }
 
   // Various methods that follow the std::string interface
   size_t size() const { return _end - _begin; }
@@ -86,6 +86,9 @@ String operator+(const String& left, const String& right);
 bool operator==(const String& left, const String& right);
 bool operator==(const char* left, const String& right);
 bool operator==(const String& left, const char* right);
+bool operator!=(const String& left, const String& right);
+bool operator!=(const char* left, const String& right);
+bool operator!=(const String& left, const char* right);
 
 // Stream operators
 std::ostream& operator<<(std::ostream& os, const String& s);

@@ -1,29 +1,25 @@
 #pragma once
 
 template <class IterType>
-class ReverseIterator {
-  friend bool operator==(const ReverseIterator& left, const ReverseIterator& right);
-  IterType forward_iter_;
+class ReverseStringIterator {
+  //friend bool operator==(const ReverseStringIterator& left, const ReverseStringIterator& right);
+  //IterType forward_iter_;
 public:
-  typedef std::iterator_traits<IterType> Traits;
+  //typedef std::iterator_traits<IterType> Traits;
   
-  ReverseIterator(): forward_iter_(nullptr) { }
-  ReverseIterator(Traits::): forward_iter(p) { }
-  //ReverseIterator(const ReverseIterator& iter): _current(iter._current) { }
-	//~ReverseIterator();
-
+  //ReverseIterator(): forward_iter_(nullptr) { }
+  //ReverseIterator(const IterType& iter): _current(iter) { }
+  //~ReverseIterator() { }
 
   //ReverseIterator& operator=(const ReverseIterator& iter) { _current =  iter._current; }
 
-
   /* Postfix increment */
-  //ReverseIterator operator++(int a) { ++_current; }
+  //ReverseIterator operator++(int a) { return ReverseIterator(_current++); }
   /* Prefix increment */
-  //ReverseIterator& operator++() { _current++; }
+  //ReverseIterator& operator++() { ++_current; return *this; }
 
-
-  //char& operator*() const { return *_current; }
-  //char* operator->() const { return _current; }
+  //Traits::valuetype operator*() const { return *_current; }
+  //Traits::valuetype operator->() const { return _current; }
 };
 
 /*

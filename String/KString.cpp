@@ -92,6 +92,10 @@ bool operator==(const char* left, const String& right) {
 bool operator==(const String& left, const char* right) {
   return right == left;
 }
+bool operator!=(const String& left, const String& right) { return !(left == right); }
+bool operator!=(const char* left, const String& right) { return !(left == right); }
+bool operator!=(const String& left, const char* right) { return !(left == right); }
+
 
 std::ostream& operator<<(std::ostream& os, const String& s) {
   return os << s.c_str();
