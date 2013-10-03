@@ -51,11 +51,11 @@ public:
   const Iterator cbegin() const { return _begin; }
   Iterator end() { return _end; }
   const Iterator cend() const { return _end; }
-  ReverseIter rbegin() { return reverse_iterator(_end); }
-  const ReverseIter crbegin() const { return reverse_iterator(_end); }
-  ReverseIter rend() { return reverse_iterator(_begin); }
-  const ReverseIter crend() const { return reverse_iterator(_begin); }
-
+  ReverseIterator<Iterator> rbegin() { return ReverseIterator<Iterator>(_end - 1); }
+  const ReverseIterator<Iterator> crbegin() const { return ReverseIterator<Iterator>(_end - 1); }
+  ReverseIterator<Iterator> rend() { return ReverseIterator<Iterator>(_begin - 1); }
+  const ReverseIterator<Iterator> crend() const { return ReverseIterator<Iterator>(_begin - 1); }
+  
   // Various methods that follow the std::string interface
   size_t size() const { return _end - _begin; }
   size_t length() const { return size(); }
