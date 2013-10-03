@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include "ReverseIterator.h"
 
 class String {
   char* _begin; // Pointer to first char in string (is a c-string)
