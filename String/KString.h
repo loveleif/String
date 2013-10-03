@@ -47,9 +47,13 @@ public:
 
   // Iterators
   iterator begin() { return _begin; }
+  const iterator cbegin() const { return _begin; }
   iterator end() { return _end; }
+  const iterator cend() const { return _end; }
   reverse_iterator rbegin() { return reverse_iterator(_end); }
+  const reverse_iterator crbegin() const { return reverse_iterator(_end); }
   reverse_iterator rend() { return reverse_iterator(_begin); }
+  const reverse_iterator crend() const { return reverse_iterator(_begin); }
 
   // Various methods that follow the std::string interface
   size_t size() const { return _end - _begin; }
