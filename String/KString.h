@@ -21,8 +21,11 @@ class String {
   String& Append(const char* source, const size_t n);
 public:
   // Typedefs
-  typedef char* Iterator;
-  typedef std::reverse_iterator<Iterator> ReverseIter;
+  typedef char* iterator;
+  typedef const char* const_iterator;
+  typedef ReverseIterator<iterator> reverse_iterator;
+  typedef const ReverseIterator<iterator> const_reverse_iterator;
+
   // Constructors
   String(const size_t capacity = 10, const char* append = nullptr, const size_t len_append = 0): _begin(nullptr), _end(nullptr), _capacity(0)
     { ReSize(capacity, append, len_append); }
@@ -47,14 +50,14 @@ public:
   ~String() { delete[] _begin; }
 
   // Iterators
-  Iterator begin() { return _begin; }
-  const Iterator cbegin() const { return _begin; }
-  Iterator end() { return _end; }
-  const Iterator cend() const { return _end; }
-  ReverseIterator<Iterator> rbegin() { return ReverseIterator<Iterator>(_end - 1); }
-  const ReverseIterator<Iterator> crbegin() const { return ReverseIterator<Iterator>(_end - 1); }
-  ReverseIterator<Iterator> rend() { return ReverseIterator<Iterator>(_begin - 1); }
-  const ReverseIterator<Iterator> crend() const { return ReverseIterator<Iterator>(_begin - 1); }
+  iterator begin() { return _begin; }
+  const_iterator cbegin() const { return _begin; }
+  iterator end() { return _end; }
+  const_iterator cend() const { return _end; }
+  reverse_iterator rbegin() { return reverse_iterator(_end - 1); }
+  const_reverse_iterator crbegin() const { return const_reverse_iterator(_end - 1); }
+  reverse_iterator rend() { return reverse_iterator(_begin - 1); }
+  const_reverse_iterator crend() const { return const_reverse_iterator(_begin - 1); }
   
   // Various methods that follow the std::string interface
   size_t size() const { return _end - _begin; }

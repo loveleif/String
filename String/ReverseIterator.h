@@ -22,20 +22,26 @@ public:
   ReverseIterator& operator--() { ++forward_iter_; return *this; }
 
   typename Traits::reference operator*() { return *forward_iter_; }
-  typename Traits::reference operator->() { return _current; }
+  const typename Traits::reference operator*() const { return *forward_iter_; }
+  typename Traits::reference operator->() { return forward_iter_; }
+  const typename Traits::reference operator->() const { return forward_iter_; }
 
-  typename Traits::reference operator[](const size_t i) { return *(forward_iter_ + i); }
+  typename Traits::reference operator[](const size_t i) { return *(forward_iter_ - i); }
+  const typename Traits::reference operator[](const size_t i) const { return *(forward_iter_ - i); }
 
   ReverseIterator& operator+=(ReverseIterator right) { forward_iter_ -= right.forward_iter_; return *this; }
   ReverseIterator& operator-=(ReverseIterator right) { forward_iter_ += right.forward_iter_; return *this; }
-  ReverseIterator operator+(ReverseIterator right) { ReverseIterator sum(*this); return sum += right; }
-  ReverseIterator operator-(ReverseIterator right) { ReverseIterator sum(*this); return sum -= right; }
   
-  bool operator==(const ReverseIterator& right) { return forward_iter_ == right.forward_iter_; }
-  bool operator!=(const ReverseIterator& right) { return !(*this == right); }
-  bool operator<(const ReverseIterator& right) { return forward_iter_ > right.forward_iter_; }
-  bool operator>(const ReverseIterator& right) { return forward_iter_ < right.forward_iter_; }
-  bool operator<=(const ReverseIterator& right) { return !(forward_iter_ < right.forward_iter_); }
-  bool operator>=(const ReverseIterator& right) { return !(forward_iter_ > right.forward_iter_); }
+  ReverseIterator operator+(const ReverseIterator right) const { ReverseIterator sum(*this); return sum += right; }
+  ReverseIterator operator+(const int right) const { return ReverseIterator(forward_iter_ - right); }
+  ReverseIterator operator-(const ReverseIterator right) const { ReverseIterator sum(*this); return sum -= right; }
+  ReverseIterator operator-(const int right) const { return ReverseIterator(forward_iter_ + right); }
+
+  bool operator==(const ReverseIterator& right) const { return forward_iter_ == right.forward_iter_; }
+  bool operator!=(const ReverseIterator& right) const { return !(*this == right); }
+  bool operator<(const ReverseIterator& right) const { return forward_iter_ > right.forward_iter_; }
+  bool operator>(const ReverseIterator& right) const { return forward_iter_ < right.forward_iter_; }
+  bool operator<=(const ReverseIterator& right) const { return !(forward_iter_ < right.forward_iter_); }
+  bool operator>=(const ReverseIterator& right) const { return !(forward_iter_ > right.forward_iter_); }
 };
 

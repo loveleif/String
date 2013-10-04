@@ -1,10 +1,25 @@
+#pragma once
 // String.cpp : Some testing of the String class.
 //
 #include "stdafx.h"
-#pragma once
-#include "stdafx.h"
 #include <cassert>
 #include <Windows.h>
+#include <stdlib.h>
+#include <crtdbg.h>
+#include "KString.h"
+#include <string>
+#include <string.h>
+#include <iostream>
+#include <utility>
+
+#define _CRTDBG_MAP_ALLOC
+#ifdef _DEBUG
+	#ifndef DBG_NEW
+		#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+		#define new DBG_NEW
+	#endif
+#endif  // _DEBUG
+
 
 using namespace std;
 
@@ -24,57 +39,31 @@ double stopWatch() {
   return delta;
 }
 
-#define _CRTDBG_MAP_ALLOC
-#ifdef _DEBUG
-	#ifndef DBG_NEW
-		#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-		#define new DBG_NEW
-	#endif
-#endif  // _DEBUG
-#include <stdlib.h>
-#include <crtdbg.h>
-
-#include "KString.h"
-
-#include <string>
-#include <string.h>
-#include <iostream>
-#include <cassert>
-#include <utility>
-
 void TestFörGodkäntString() {
 //-	String()
 	String s0;	assert (s0=="");
+
 //-	String(Sträng sträng)
 	String s1("foo"); assert(s1=="foo");
 	String s2(s1); assert(s2=="foo");
-	std::string a("hej");
-	a.begin();
-	String s3(std::string("bar"));
-  std::cout << s3 << std::endl;
-  assert(s3=="bar");
+	String s3(string("bar"));  assert(s3=="bar");
 
 //-	~String() Kom ihåg destruktorn!
 	delete new String("hej");
 
 //	-	operator =(Sträng sträng)
-	s2=s3;
 	assert((s2=s3)==s3);
 	assert((s2=s2)==s3);
-	s2 = String("foo");
-	assert(s2=="foo");
+	assert((s2=(string("foo")))=="foo");
 	assert((s2="bar")=="bar");
 
 //-	operator+=(Sträng sträng) som tolkas som konkatenering.
 	//foo, bar, bar
 	(s2+=s1)+=(s3+=s1);
-	assert(s3=="barfoo");
-  assert(s1=="foo");
-  assert(s2=="barfoobarfoo");
+	assert(s3=="barfoo" && s2=="barfoobarfoo" && s1=="foo");
 
 	//+= som får plats;
-	s3="bar";
-  s3.reserve(10);
+	s3="bar"; s3.reserve(10);
 	s3+=s1;
 	assert(s3=="barfoo");
 
@@ -105,7 +94,7 @@ void TestFörGodkäntString() {
 	//testas överallt!
 
 //-	at(int i) som indexerar med range check
-  try {
+	try {
 	 s2.at(-1);
 	 assert(false);
 	} catch (std::out_of_range&) {};
@@ -189,59 +178,68 @@ void TestFörVälGodkäntString() {
 	s2=""; assert(s2[s2.length()]=='\0');
 	s2="bar"; assert(s2[s2.length()]=='\0');
 
+
+
 }
 
-void TestIterator() {
-  String s("abcdefghijklmnopqrstuvwxyz");
-  s.reserve(256);
+#define MACROTestIttPart(CR)							\
+	/*	*it, ++it, it++, (it+i), it[i], == och !=	*/	\
+	void TestIttPart##CR() {							\
+	String s1("foobar");								\
+	for (auto i=s1.CR##begin(); i!=s1.CR##end(); i++)	\
+		cout << *i;										\
+	cout << endl;										\
+	if (#CR=="r" || #CR=="cr")							\
+		s1="raboof";									\
+	auto it = s1.CR##begin();							\
+	assert(*it=='f');									\
+	assert(*(it++)=='f' && *it == 'o');					\
+	++it;												\
+	assert(*++it=='b');									\
+	assert(*(it+1)=='a');								\
+	assert(it[2]=='r');									\
+}
 
-  String s2;
+MACROTestIttPart(,);	//, ger tomt argument
+MACROTestIttPart(c);
+MACROTestIttPart(r);
+MACROTestIttPart(cr);
 
-  for (auto i = s.begin(); i != s.end(); ++i) {
-    s2 += *i;
-  }
-  for (auto iter = s.begin(); iter != s.end(); ++iter) {
-    s2 += *iter;
-  }
-  assert(s==s2);
-  s2.clear();
-  assert(s!=s2);
-  for (auto i = s.cbegin(); i != s.cend(); ++i) {
-    s2 += *i;
-  }
-  assert(s==s2);
-  s2.clear();
-  for (auto iter = s.cbegin(); iter != s.cend(); ++iter) {
-    s2 += *iter;
-  }
-  assert(s==s2);
-  s2.clear();
 
-  String sr;
-  for (int i = s.size() - 1; i >= 0; --i)
-    sr += s.at(i);
-  for (auto iter = s.rbegin(); iter != s.rend(); ++iter)
-    s2 += *iter;
-  assert(sr==s2);
+void TestFörGodkäntItt() {
+//-	typdefs för iterator, const_iterator,  reverse_iterator och const_revers_iterator
+	String::iterator Str;
+	String::const_iterator cStr;
+	String::reverse_iterator rStr;
+	String::const_reverse_iterator crStr;
+
+//-	funktionerna begin, end, cbegin, cend, rbegin, rend, crbegin och crend.
+
+//Iteratorerna ska kunna göra:
+//-	*it, ++it, it++, (it+i), it[i], == och !=
+	TestIttPart();
+	TestIttPartc();
+	TestIttPartr();
+	TestIttPartcr();
+
+//-	default constructor, copy constructor och tilldelning (=) 
+	String s("foobar");
+	Str=s.begin();
+	cStr=s.cbegin();
+	rStr=s.rbegin();
+	crStr=s.crbegin();
+	*Str='a';
+//	*(cStr+1)='b';	//Sak ge kompileringsfel!
+	*(rStr+2)='c';
+//	*(crStr+3)='d';	//Sak ge kompileringsfel!
+	assert(s=="aoocar");
+
 }
 
 
 int main() {
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	//TestFörGodkäntString();
-	//TestFörVälGodkäntString();
-
-  /*
-  stopWatch();
-  stopWatch();
-
-  int a = 5;
-
-  double elapsed = stopWatch();
-  */
-
-  TestIterator();
-
-	std::cin.get();
-	//std::cin.get();
+	TestFörVälGodkäntString();
+	TestFörGodkäntItt();
+	cin.get();
 }
