@@ -14,7 +14,7 @@ public:
   ReverseIterator(const ReverseIterator& rev_iter): forward_iter_(rev_iter.forward_iter_) { }
   ~ReverseIterator() { }
 
-  ReverseIterator& operator=(const ReverseIterator& iter) { forward_iter_ =  iter.forward_iter_; }
+  ReverseIterator& operator=(const ReverseIterator& iter) { forward_iter_ =  iter.forward_iter_; return *this; }
 
   ReverseIterator operator++(int a) { return ReverseIterator(forward_iter_--); }
   ReverseIterator& operator++() { --forward_iter_; return *this; }

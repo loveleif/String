@@ -24,7 +24,7 @@ public:
   typedef char* iterator;
   typedef const char* const_iterator;
   typedef ReverseIterator<iterator> reverse_iterator;
-  typedef const ReverseIterator<iterator> const_reverse_iterator;
+  typedef ReverseIterator<const_iterator> const_reverse_iterator;
 
   // Constructors
   String(const size_t capacity = 10, const char* append = nullptr, const size_t len_append = 0): _begin(nullptr), _end(nullptr), _capacity(0)
