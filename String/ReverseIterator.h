@@ -30,9 +30,9 @@ public:
   ReverseIterator& operator+=(ReverseIterator right) { forward_iter_ -= right.forward_iter_; return *this; }
   ReverseIterator& operator-=(ReverseIterator right) { forward_iter_ += right.forward_iter_; return *this; }
   
-  ReverseIterator operator+(const ReverseIterator right) const { ReverseIterator sum(*this); return sum += right; }
+  ReverseIterator operator+(const ReverseIterator right) const { return right += *this; }
   ReverseIterator operator+(const int right) const { return ReverseIterator(forward_iter_ - right); }
-  ReverseIterator operator-(const ReverseIterator right) const { ReverseIterator sum(*this); return sum -= right; }
+  ReverseIterator operator-(const ReverseIterator right) const { right -= *this; }
   ReverseIterator operator-(const int right) const { return ReverseIterator(forward_iter_ + right); }
 
   bool operator==(const ReverseIterator& right) const { return forward_iter_ == right.forward_iter_; }
