@@ -4,8 +4,6 @@
 template <class IterType>
 class ReverseIterator {
   typedef std::iterator_traits<IterType> Traits;
-  template <class T>
-  friend bool operator==(const ReverseIterator<T>& left, const ReverseIterator<T>& right);
   
   IterType forward_iter_;
 public:
