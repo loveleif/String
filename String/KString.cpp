@@ -11,7 +11,6 @@ void String::ReSize(const size_t new_capacity, const char* append, const size_t 
   char* new_string = new char[_capacity+1];
   // Copy data
   if (_begin) {
-    #pragma warning(disable:4996)
     strcpy(new_string, _begin);
     _end = new_string + old_size;
   } else {
@@ -36,7 +35,7 @@ void String::ReSize(const size_t new_capacity, const char* append, const size_t 
 
 String& String::Append(const char* source, const size_t n) {
   size_t new_size = size() + n;
-  if (new_size > capacity()) {
+  if (new_size > capacity() || capacity() == 0) {
     ReSize((new_size * 3) / 2, source, n);
   } else {
     memmove(_end, source, n * sizeof(char));
@@ -44,6 +43,13 @@ String& String::Append(const char* source, const size_t n) {
     *_end = '\0';
   }
   return *this;
+}
+
+void String::clear() {
+  if (capacity() != 0) {
+    *_begin = '\0';
+    _end = _begin;
+  }
 }
 
 String& String::operator+=(const char* right) {
@@ -60,6 +66,16 @@ String& String::operator=(const String& string) {
     Append(string.c_str(), string.size());
   }
   return *this;
+}
+
+String& String::operator=(const char* string) { 
+  clear();
+  return Append(string, strlen(string));
+}
+
+String& String::operator=(const std::string& string) { 
+  clear();
+  return Append(string.c_str(), string.size());
 }
 
 void String::Move(String& other) {
@@ -95,7 +111,6 @@ bool operator==(const String& left, const char* right) {
 bool operator!=(const String& left, const String& right) { return !(left == right); }
 bool operator!=(const char* left, const String& right) { return !(left == right); }
 bool operator!=(const String& left, const char* right) { return !(left == right); }
-
 
 std::ostream& operator<<(std::ostream& os, const String& s) {
   return os << s.c_str();

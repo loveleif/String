@@ -43,6 +43,8 @@ public:
 
   // Assignment
   String& operator=(const String& string);
+  String& operator=(const char* string);
+  String& operator=(const std::string& string);
   // Move assignment
   String& operator=(String&& other);
 
@@ -73,7 +75,7 @@ public:
   void reserve(const size_t n) { if (n > capacity()) ReSize(n); }
   size_t capacity() const { return _capacity; }
   void shrink_to_fit() { ReSize(size()); }
-  void clear() { *_begin = '\0'; _end = _begin; }
+  void clear();
 
   // Compound assignment operators
   String& operator+=(const char* right);
