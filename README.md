@@ -1,3 +1,3 @@
 # String
 
-A string class that mimics parts of the API for the standard C++ string class.
+A string class that mimics parts of the std::string class.
